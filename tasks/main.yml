@@ -1,0 +1,22 @@
+# vim:ft=ansible:
+
+- name: Ubuntu docker source list file
+  template: src=docker.list.j2 dest=/etc/apt/sources.list.d/docker.list 
+
+- name: Ubuntu docker apt key
+  apt_key: 
+    url: https://apt.dockerproject.org/gpg 
+    id: 2C52609D
+    state: present
+
+- name: Update ubuntu apt-get
+  apt: update_cache=yes
+
+- name: Install docker 
+  apt: name=docker-engine state=present
+
+- name: Add batbold to the docker group
+  user:
+    name: batbold
+    groups: docker
+    append: yes
